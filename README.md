@@ -1,11 +1,11 @@
-# go-lib
+# Golang常用函数库
 
-> Golang commonly used function library
+> 包中的所有函数都源于开发过程中的积累
 
-## Get
+## 获取
 
 ``` bash
-$ go get -v github.com/LyricTian/go-lib/...
+$ go get -v gopkg.in/LyricTian/lib.v1
 ```
 
 ## License
