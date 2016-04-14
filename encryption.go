@@ -17,11 +17,11 @@ type Encryption struct {
 }
 
 // MD5 MD5加密
-func (this *Encryption) MD5() string {
+func (this *Encryption) MD5() (string, error) {
 	h := md5.New()
-	var _, err = h.Write(this.v)
-	if err == nil {
-		return hex.EncodeToString(h.Sum(nil))
+	_, err := h.Write(this.v)
+	if err != nil {
+		return "", err
 	}
-	return ""
+	return hex.EncodeToString(h.Sum(nil)), nil
 }
