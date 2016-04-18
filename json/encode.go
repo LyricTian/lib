@@ -25,9 +25,12 @@ func EncodeReader(v interface{}) io.Reader {
 	go func() {
 		err := json.NewEncoder(pw).Encode(v)
 		if err != nil {
-			pw.CloseWithError(err)
+			err = pw.CloseWithError(err)
 		} else {
-			pw.Close()
+			err = pw.Close()
+		}
+		if err != nil {
+			panic(err)
 		}
 	}()
 	return pr

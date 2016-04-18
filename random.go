@@ -18,48 +18,55 @@ type Random struct {
 }
 
 // Number 生成只包含数字的随机码
-func (this *Random) Number() string {
-	source := this.number()
-	return this.Source(source)
+func (rd *Random) Number() string {
+	source := rd.number()
+	return rd.Source(source)
 }
 
 // LowerLetter 生成只包含小写字母的随机码
-func (this *Random) LowerLetter() string {
-	source := this.lowerLetter()
-	return this.Source(source)
+func (rd *Random) LowerLetter() string {
+	source := rd.lowerLetter()
+	return rd.Source(source)
 }
 
 // UpperLetter 生成只包含大写字母的随机码
-func (this *Random) UpperLetter() string {
-	source := this.upperLetter()
-	return this.Source(source)
+func (rd *Random) UpperLetter() string {
+	source := rd.upperLetter()
+	return rd.Source(source)
 }
 
 // NumberAndLetter 生成包含数字和字母(不区分大小写)的随机码
-func (this *Random) NumberAndLetter() string {
-	source := this.number()
-	source = append(source, this.lowerLetter()...)
-	source = append(source, this.upperLetter()...)
-	return this.Source(source)
+func (rd *Random) NumberAndLetter() string {
+	source := rd.number()
+	source = append(source, rd.lowerLetter()...)
+	source = append(source, rd.upperLetter()...)
+	return rd.Source(source)
 }
 
 // Source 从指定的数据源生成随机码
-func (this *Random) Source(source []byte) string {
+func (rd *Random) Source(source []byte) string {
 	if len(source) == 0 {
 		return ""
 	}
 	r, w := io.Pipe()
 	go func() {
-		for i := 0; i < this.vl; i++ {
+		for i := 0; i < rd.vl; i++ {
+			defer func() {
+				if err := w.Close(); err != nil {
+					panic(err)
+				}
+			}()
 			rd := rand.New(rand.NewSource(time.Now().UnixNano()))
 			val := source[rd.Intn(len(source))]
-			w.Write([]byte{val})
+			_, err := w.Write([]byte{val})
+			if err != nil {
+				panic(err)
+			}
 		}
-		w.Close()
 	}()
 	var result []byte
 	for {
-		buf := make([]byte, this.vl)
+		buf := make([]byte, rd.vl)
 		n, err := r.Read(buf)
 		if err != nil {
 			break
@@ -69,7 +76,7 @@ func (this *Random) Source(source []byte) string {
 	return string(result)
 }
 
-func (this *Random) number() []byte {
+func (rd *Random) number() []byte {
 	v := make([]byte, 10)
 	for i, j := 48, 0; i <= 57; i, j = i+1, j+1 {
 		v[j] = byte(i)
@@ -77,7 +84,7 @@ func (this *Random) number() []byte {
 	return v
 }
 
-func (this *Random) lowerLetter() []byte {
+func (rd *Random) lowerLetter() []byte {
 	v := make([]byte, 26)
 	for i, j := 97, 0; i < 123; i, j = i+1, j+1 {
 		v[j] = byte(i)
@@ -85,7 +92,7 @@ func (this *Random) lowerLetter() []byte {
 	return v
 }
 
-func (this *Random) upperLetter() []byte {
+func (rd *Random) upperLetter() []byte {
 	v := make([]byte, 26)
 	for i, j := 65, 0; i < 91; i, j = i+1, j+1 {
 		v[j] = byte(i)

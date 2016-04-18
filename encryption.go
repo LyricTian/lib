@@ -17,9 +17,9 @@ type Encryption struct {
 }
 
 // MD5 MD5加密
-func (this *Encryption) MD5() (string, error) {
+func (e *Encryption) MD5() (string, error) {
 	h := md5.New()
-	_, err := h.Write(this.v)
+	_, err := h.Write(e.v)
 	if err != nil {
 		return "", err
 	}

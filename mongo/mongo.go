@@ -23,43 +23,43 @@ type Handler struct {
 }
 
 // Session 获取当前会话
-func (this *Handler) Session() *mgo.Session {
-	return this.session
+func (h *Handler) Session() *mgo.Session {
+	return h.session
 }
 
 // CloneSession 克隆一个会话
-func (this *Handler) CloneSession() *mgo.Session {
-	return this.session.Clone()
+func (h *Handler) CloneSession() *mgo.Session {
+	return h.session.Clone()
 }
 
 // DBHandle 使用新的DB处理带有回调函数的集合,处理完成之后将关闭该会话(处理时将使用克隆的会话)
-func (this *Handler) DBHandle(dbName, cName string, handle func(c *mgo.Collection)) {
-	session := this.CloneSession()
+func (h *Handler) DBHandle(dbName, cName string, handle func(c *mgo.Collection)) {
+	session := h.CloneSession()
 	defer session.Close()
 	handle(session.DB(dbName).C(cName))
 }
 
 // CHandle 使用默认DB处理带有回调函数的集合,处理完成之后将关闭该会话(处理时将使用克隆的会话)
-func (this *Handler) CHandle(cName string, handle func(c *mgo.Collection)) {
-	session := this.CloneSession()
+func (h *Handler) CHandle(cName string, handle func(c *mgo.Collection)) {
+	session := h.CloneSession()
 	defer session.Close()
 	handle(session.DB("").C(cName))
 }
 
 // DB 使用新的DB处理集合(使用当前会话)
-func (this *Handler) DB(dbName, cName string) *mgo.Collection {
-	return this.session.DB(dbName).C(cName)
+func (h *Handler) DB(dbName, cName string) *mgo.Collection {
+	return h.session.DB(dbName).C(cName)
 }
 
 // C 使用默认DB处理集合(使用当前会话)
-func (this *Handler) C(cName string) *mgo.Collection {
-	return this.session.DB("").C(cName)
+func (h *Handler) C(cName string) *mgo.Collection {
+	return h.session.DB("").C(cName)
 }
 
 // IncrID 返回一个自增ID
 // cName 需要生成自增ID的集合名称
-func (this *Handler) IncrID(cName string) (id int64, err error) {
-	this.CHandle("counters", func(c *mgo.Collection) {
+func (h *Handler) IncrID(cName string) (id int64, err error) {
+	h.CHandle("counters", func(c *mgo.Collection) {
 		var result struct {
 			Seq int64 `bson:"seq"`
 		}

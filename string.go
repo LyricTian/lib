@@ -14,7 +14,7 @@ func (s Str) ToString() string {
 	return string(s)
 }
 
-// ToByte Convert string to []byte
+// ToBytes Convert string to []byte
 func (s Str) ToBytes() []byte {
 	return []byte(s.ToString())
 }

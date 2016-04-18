@@ -16,9 +16,12 @@ func DecodeReader2(r io.Reader, v interface{}) error {
 	go func() {
 		_, err := io.Copy(pw, r)
 		if err != nil {
-			pw.CloseWithError(err)
+			err = pw.CloseWithError(err)
 		} else {
-			pw.Close()
+			err = pw.Close()
+		}
+		if err != nil {
+			panic(err)
 		}
 	}()
 	return json.NewDecoder(pr).Decode(v)
