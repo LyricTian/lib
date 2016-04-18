@@ -1,5 +1,7 @@
 # Golang常用函数库
 
+[![GoDoc](https://godoc.org/gopkg.in/LyricTian/lib.v1?status.svg)](https://godoc.org/gopkg.in/LyricTian/lib.v1)
+
 > 包中的所有函数都源于开发过程中的积累
 
 ## 获取
