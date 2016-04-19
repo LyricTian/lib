@@ -94,14 +94,14 @@ func (i inter) DefaultInt64(defaultVal int64) int64 {
 
 func (i inter) Uint64() (uint64, error) {
 	switch i.kind() {
-	case reflect.String:
-		return S(i.v.String()).Uint64()
 	case reflect.Uint64:
 		return i.v.Uint(), nil
 	case reflect.Int64:
 		return uint64(i.v.Int()), nil
 	case reflect.Float64:
 		return uint64(i.v.Float()), nil
+	case reflect.String:
+		return S(i.v.String()).Uint64()
 	}
 	return 0, errors.New("Unknown value type")
 }

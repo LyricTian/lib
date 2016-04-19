@@ -69,6 +69,9 @@ func (rd *Random) Source(source []byte) string {
 		buf := make([]byte, rd.vl)
 		n, err := r.Read(buf)
 		if err != nil {
+			if err != io.EOF {
+				panic(err)
+			}
 			break
 		}
 		result = append(result, buf[:n]...)

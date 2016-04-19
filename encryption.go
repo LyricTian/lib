@@ -5,18 +5,18 @@ import (
 	"encoding/hex"
 )
 
-// NewEncryption 创建Encryption的实例
-// v 需要加密的值
-func NewEncryption(v []byte) *Encryption {
-	return &Encryption{v: v}
+// NewEncryption Create a Encryption instance
+// data The encrypted data
+func NewEncryption(data []byte) *Encryption {
+	return &Encryption{v: data}
 }
 
-// Encryption 提供加密操作
+// Encryption Provide some commonly used encryption function
 type Encryption struct {
 	v []byte
 }
 
-// MD5 MD5加密
+// MD5 md5 encryption
 func (e *Encryption) MD5() (string, error) {
 	h := md5.New()
 	_, err := h.Write(e.v)

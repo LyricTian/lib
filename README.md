@@ -1,13 +1,15 @@
-# Golang常用函数库
+# Golang commonly used function library
 
 [![GoDoc](https://godoc.org/gopkg.in/LyricTian/lib.v1?status.svg)](https://godoc.org/gopkg.in/LyricTian/lib.v1)
 
-> 包中的所有函数都源于开发过程中的积累
-
-## 获取
+## Get And Usage
 
 ``` bash
 $ go get -v gopkg.in/LyricTian/lib.v1
+```
+
+``` go
+import "gopkg.in/LyricTian/lib.v1"
 ```
 
 ## License

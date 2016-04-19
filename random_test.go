@@ -3,55 +3,37 @@ package lib_test
 import (
 	"testing"
 
+	. "github.com/smartystreets/goconvey/convey"
 	"gopkg.in/LyricTian/lib.v1"
 )
 
-func TestRandomSource(t *testing.T) {
-	random := lib.NewRandom(6)
-	v := random.Source([]byte("123456abcdef"))
-	if v == "" {
-		t.Error("Generate error")
-		return
-	}
-	t.Log(v)
-}
-
-func TestRandomNumber(t *testing.T) {
-	random := lib.NewRandom(6)
-	v := random.Number()
-	if v == "" {
-		t.Error("Generate error")
-		return
-	}
-	t.Log(v)
-}
-
-func TestRandomLowerLetter(t *testing.T) {
-	random := lib.NewRandom(6)
-	v := random.LowerLetter()
-	if v == "" {
-		t.Error("Generate error")
-		return
-	}
-	t.Log(v)
-}
-
-func TestRandomUpperLetter(t *testing.T) {
-	random := lib.NewRandom(6)
-	v := random.UpperLetter()
-	if v == "" {
-		t.Error("Generate error")
-		return
-	}
-	t.Log(v)
-}
-
-func TestRandomNumberAndLetter(t *testing.T) {
-	random := lib.NewRandom(6)
-	v := random.NumberAndLetter()
-	if v == "" {
-		t.Error("Generate error")
-		return
-	}
-	t.Log(v)
+func TestRandom(t *testing.T) {
+	Convey("Subject: Generate random value test", t, func() {
+		random := lib.NewRandom(6)
+		Convey("RandomSource Test", func() {
+			v := random.Source([]byte("123456abcdef"))
+			So(v, ShouldNotEqual, "")
+			_, _ = Println("\n RandomSource value:" + v)
+		})
+		Convey("RandomNumber Test", func() {
+			v := random.Number()
+			So(v, ShouldNotEqual, "")
+			_, _ = Println("\n RandomNumber value:" + v)
+		})
+		Convey("LowerLetter Test", func() {
+			v := random.LowerLetter()
+			So(v, ShouldNotEqual, "")
+			_, _ = Println("\n LowerLetter value:" + v)
+		})
+		Convey("UpperLetter Test", func() {
+			v := random.UpperLetter()
+			So(v, ShouldNotEqual, "")
+			_, _ = Println("\n UpperLetter value:" + v)
+		})
+		Convey("NumberAndLetter Test", func() {
+			v := random.NumberAndLetter()
+			So(v, ShouldNotEqual, "")
+			_, _ = Println("\n NumberAndLetter value:" + v)
+		})
+	})
 }
