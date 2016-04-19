@@ -1,11 +1,13 @@
-package lib
+package lib_test
 
 import (
 	"testing"
+
+	"gopkg.in/LyricTian/lib.v1"
 )
 
 func TestRandomSource(t *testing.T) {
-	random := NewRandom(6)
+	random := lib.NewRandom(6)
 	v := random.Source([]byte("123456abcdef"))
 	if v == "" {
 		t.Error("Generate error")
@@ -15,7 +17,7 @@ func TestRandomSource(t *testing.T) {
 }
 
 func TestRandomNumber(t *testing.T) {
-	random := NewRandom(6)
+	random := lib.NewRandom(6)
 	v := random.Number()
 	if v == "" {
 		t.Error("Generate error")
@@ -25,7 +27,7 @@ func TestRandomNumber(t *testing.T) {
 }
 
 func TestRandomLowerLetter(t *testing.T) {
-	random := NewRandom(6)
+	random := lib.NewRandom(6)
 	v := random.LowerLetter()
 	if v == "" {
 		t.Error("Generate error")
@@ -35,7 +37,7 @@ func TestRandomLowerLetter(t *testing.T) {
 }
 
 func TestRandomUpperLetter(t *testing.T) {
-	random := NewRandom(6)
+	random := lib.NewRandom(6)
 	v := random.UpperLetter()
 	if v == "" {
 		t.Error("Generate error")
@@ -45,7 +47,7 @@ func TestRandomUpperLetter(t *testing.T) {
 }
 
 func TestRandomNumberAndLetter(t *testing.T) {
-	random := NewRandom(6)
+	random := lib.NewRandom(6)
 	v := random.NumberAndLetter()
 	if v == "" {
 		t.Error("Generate error")

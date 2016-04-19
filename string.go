@@ -6,86 +6,91 @@ import (
 	"time"
 )
 
-// Str Provide a string convert operation
-type Str string
+// S Provide a string conversions
+type S string
 
-// ToString Convert string to string
-func (s Str) ToString() string {
+// String Convert S to string
+func (s S) String() string {
 	return string(s)
 }
 
-// ToBytes Convert string to []byte
-func (s Str) ToBytes() []byte {
-	return []byte(s.ToString())
+// Bytes Convert string to []byte
+func (s S) Bytes() []byte {
+	return []byte(s.String())
 }
 
-// ToBuffer Convert string to buffer
-func (s Str) ToBuffer() *bytes.Buffer {
-	return bytes.NewBufferString(s.ToString())
+// Buffer Convert string to buffer
+func (s S) Buffer() *bytes.Buffer {
+	return bytes.NewBufferString(s.String())
 }
 
-// ToInt64 Convert string to int64
-func (s Str) ToInt64() int64 {
-	i, err := strconv.ParseInt(s.ToString(), 10, 64)
+// Int64 Convert string to int64
+func (s S) Int64() (int64, error) {
+	return strconv.ParseInt(s.String(), 10, 64)
+}
+
+// DefaultInt64 Convert string to int64
+func (s S) DefaultInt64(defaultVal int64) int64 {
+	v, err := s.Int64()
 	if err != nil {
-		return 0
+		return defaultVal
 	}
-	return i
+	return v
 }
 
-// ToInt32 Convert string to int32
-func (s Str) ToInt32() int32 {
-	return int32(s.ToInt64())
+// Uint64 Convert string to uint64
+func (s S) Uint64() (uint64, error) {
+	return strconv.ParseUint(s.String(), 10, 64)
 }
 
-// ToInt Convert string to int
-func (s Str) ToInt() int {
-	return int(s.ToInt32())
-}
-
-// ToUint64 Convert string to uint64
-func (s Str) ToUint64() uint64 {
-	val, err := strconv.ParseUint(s.ToString(), 10, 64)
+// DefaultUint64 Convert string to Uint64
+func (s S) DefaultUint64(defaultVal uint64) uint64 {
+	v, err := s.Uint64()
 	if err != nil {
-		return 0
+		return defaultVal
 	}
-	return val
+	return v
 }
 
-// ToUint32 Convert string to uint32
-func (s Str) ToUint32() uint32 {
-	return uint32(s.ToUint64())
+// Float64 Convert string to float64
+func (s S) Float64() (float64, error) {
+	return strconv.ParseFloat(s.String(), 64)
 }
 
-// ToFloat64 Convert string to float64
-func (s Str) ToFloat64() float64 {
-	f, err := strconv.ParseFloat(s.ToString(), 64)
+// DefaultFloat64 Convert string to float64
+func (s S) DefaultFloat64(defaultVal float64) float64 {
+	v, err := s.Float64()
 	if err != nil {
-		return 0
+		return defaultVal
 	}
-	return f
+	return v
 }
 
-// ToFloat32 Convert string to float32
-func (s Str) ToFloat32() float32 {
-	return float32(s.ToFloat64())
+// Bool Convert string to bool
+func (s S) Bool() (bool, error) {
+	return strconv.ParseBool(s.String())
 }
 
-// ToTime Convert string to time,
-// If error isn't nil return time.Now()
-func (s Str) ToTime(layout string) time.Time {
-	t, err := time.Parse(layout, s.ToString())
-	if err != nil {
-		return time.Now()
-	}
-	return t
-}
-
-// ToBool Convert string to bool
-func (s Str) ToBool() bool {
-	v, err := strconv.ParseBool(s.ToString())
+// DefaultBool Convert string to bool
+func (s S) DefaultBool() bool {
+	v, err := s.Bool()
 	if err != nil {
 		return false
+	}
+	return v
+}
+
+// Time Convert string to time
+func (s S) Time(layout string) (time.Time, error) {
+	return time.Parse(layout, s.String())
+}
+
+// DefaultTime Convert string to time,
+// If conversion errors,return time.Now()
+func (s S) DefaultTime(layout string) time.Time {
+	v, err := s.Time(layout)
+	if err != nil {
+		return time.Now()
 	}
 	return v
 }

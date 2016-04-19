@@ -1,91 +1,155 @@
 package lib
 
 import (
+	"errors"
 	"fmt"
-
-	"time"
+	"reflect"
+	"strconv"
 )
 
-// T Interface instance
+// T Convert interface{} to Interface
 func T(v interface{}) Interface {
-	var s string
-	if v != nil {
-		s = fmt.Sprintf("%v", v)
+	return inter{
+		v: reflect.Indirect(reflect.ValueOf(v)),
 	}
-	return inter{v: Str(s)}
 }
 
-// Interface Provide a interface{} convert operation
+// Interface Provide a interface{} conversions
 type Interface interface {
-	// ToString Convert interface{} to string
-	ToString() string
-	// ToBytes Convert interface{} to []byte
-	ToBytes() []byte
-	// ToString Convert interface{} to int64
-	ToInt64() int64
-	// ToString Convert interface{} to int32
-	ToInt32() int32
-	// ToString Convert interface{} to int
-	ToInt() int
-	// ToString Convert interface{} to uint64
-	ToUint64() uint64
-	// ToString Convert interface{} to uint32
-	ToUint32() uint32
-	// ToString Convert interface{} to float64
-	ToFloat64() float64
-	// ToString Convert interface{} to float32
-	ToFloat32() float32
-	// ToString Convert interface{} to bool
-	ToBool() bool
-	// ToString Convert interface{} to time,
-	// // If error isn't nil return time.Now()
-	ToTime(layout string) time.Time
+	// String Convert interface{} to string
+	String() string
+	// Int64 Convert interface{} to int64
+	Int64() (int64, error)
+	// DefaultInt64 Convert interface{} to int64
+	DefaultInt64(defaultVal int64) int64
+	// Uint64 Convert interface{} to uint64
+	Uint64() (uint64, error)
+	// DefaultUint64 Convert interface{} to uint64
+	DefaultUint64(defaultVal uint64) uint64
+	// Float64 Convert interface{} to float64
+	Float64() (float64, error)
+	// DefaultFloat64 Convert interface{} to float64
+	DefaultFloat64(defaultVal float64) float64
+	// Bool Convert interface{} to bool
+	Bool() (bool, error)
+	// DefaultBool Convert interface{} to bool
+	DefaultBool() bool
 }
 
 type inter struct {
-	v Str
+	v reflect.Value
 }
 
-func (i inter) ToString() string {
-	return i.v.ToString()
+func (i inter) kind() reflect.Kind {
+	k := i.v.Kind()
+	switch {
+	case k >= reflect.Int && k <= reflect.Int64:
+		return reflect.Int64
+	case k >= reflect.Uint && k <= reflect.Uint64:
+		return reflect.Uint64
+	case k >= reflect.Float32 && k <= reflect.Float64:
+		return reflect.Float64
+	default:
+		return k
+	}
 }
 
-func (i inter) ToBytes() []byte {
-	return i.v.ToBytes()
+func (i inter) String() string {
+	switch i.kind() {
+	case reflect.String:
+		return i.v.String()
+	case reflect.Int64:
+		return strconv.FormatInt(i.v.Int(), 10)
+	case reflect.Uint64:
+		return strconv.FormatUint(i.v.Uint(), 10)
+	case reflect.Float64:
+		return strconv.FormatFloat(i.v.Float(), 'f', 5, 64)
+	case reflect.Bool:
+		return strconv.FormatBool(i.v.Bool())
+	}
+	return fmt.Sprintf("%v", i.v.Interface())
 }
 
-func (i inter) ToInt64() int64 {
-	return i.v.ToInt64()
+func (i inter) Int64() (int64, error) {
+	switch i.kind() {
+	case reflect.String:
+		return S(i.v.String()).Int64()
+	case reflect.Int64:
+		return i.v.Int(), nil
+	case reflect.Uint64:
+		return int64(i.v.Uint()), nil
+	case reflect.Float64:
+		return int64(i.v.Float()), nil
+	}
+	return 0, errors.New("Unknown value type")
 }
 
-func (i inter) ToInt32() int32 {
-	return i.v.ToInt32()
+func (i inter) DefaultInt64(defaultVal int64) int64 {
+	v, err := i.Int64()
+	if err != nil {
+		return defaultVal
+	}
+	return v
 }
 
-func (i inter) ToInt() int {
-	return i.v.ToInt()
+func (i inter) Uint64() (uint64, error) {
+	switch i.kind() {
+	case reflect.String:
+		return S(i.v.String()).Uint64()
+	case reflect.Uint64:
+		return i.v.Uint(), nil
+	case reflect.Int64:
+		return uint64(i.v.Int()), nil
+	case reflect.Float64:
+		return uint64(i.v.Float()), nil
+	}
+	return 0, errors.New("Unknown value type")
 }
 
-func (i inter) ToUint64() uint64 {
-	return i.v.ToUint64()
+func (i inter) DefaultUint64(defaultVal uint64) uint64 {
+	v, err := i.Uint64()
+	if err != nil {
+		return defaultVal
+	}
+	return v
 }
 
-func (i inter) ToUint32() uint32 {
-	return i.v.ToUint32()
+func (i inter) Float64() (float64, error) {
+	switch i.kind() {
+	case reflect.String:
+		return S(i.v.String()).Float64()
+	case reflect.Uint64:
+		return float64(i.v.Uint()), nil
+	case reflect.Int64:
+		return float64(i.v.Int()), nil
+	case reflect.Float64:
+		return i.v.Float(), nil
+	}
+	return 0, errors.New("Unknown value type")
 }
 
-func (i inter) ToFloat64() float64 {
-	return i.v.ToFloat64()
+func (i inter) DefaultFloat64(defaultVal float64) float64 {
+	v, err := i.Float64()
+	if err != nil {
+		return defaultVal
+	}
+	return v
 }
 
-func (i inter) ToFloat32() float32 {
-	return i.v.ToFloat32()
+func (i inter) Bool() (bool, error) {
+	switch i.kind() {
+	case reflect.String:
+		return S(i.v.String()).Bool()
+	case reflect.Bool:
+		return i.v.Bool(), nil
+	}
+	return false, errors.New("Unknown value type")
 }
 
-func (i inter) ToBool() bool {
-	return i.v.ToBool()
-}
-
-func (i inter) ToTime(layout string) time.Time {
-	return i.v.ToTime(layout)
+func (i inter) DefaultBool() bool {
+	v, err := i.Bool()
+	if err != nil {
+		return false
+	}
+	return v
 }
