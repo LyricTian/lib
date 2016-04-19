@@ -1,15 +1,15 @@
 # Golang commonly used function library
 
-[![GoDoc](https://godoc.org/gopkg.in/LyricTian/lib.v1?status.svg)](https://godoc.org/gopkg.in/LyricTian/lib.v1)
+[![GoDoc](https://godoc.org/gopkg.in/LyricTian/lib.v2?status.svg)](https://godoc.org/gopkg.in/LyricTian/lib.v2)
 
 ## Get And Usage
 
 ``` bash
-$ go get -v gopkg.in/LyricTian/lib.v1
+$ go get -v gopkg.in/LyricTian/lib.v2
 ```
 
 ``` go
-import "gopkg.in/LyricTian/lib.v1"
+import "gopkg.in/LyricTian/lib.v2"
 ```
 
 ## License
