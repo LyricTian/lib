@@ -58,8 +58,13 @@ func (h *Handler) C(cName string) *mgo.Collection {
 
 // IncrID 返回一个自增ID
 // cName 需要生成自增ID的集合名称
-func (h *Handler) IncrID(cName string) (id int64, err error) {
-	h.CHandle("counters", func(c *mgo.Collection) {
+// storeCName 存储自增ID的集合名(默认为counters)
+func (h *Handler) IncrID(cName string, storeCName ...string) (id int64, err error) {
+	sCName := "counters"
+	if len(storeCName) > 0 {
+		sCName = storeCName[0]
+	}
+	h.CHandle(sCName, func(c *mgo.Collection) {
 		var result struct {
 			Seq int64 `bson:"seq"`
 		}
