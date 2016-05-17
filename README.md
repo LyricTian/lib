@@ -1,6 +1,7 @@
 # Golang commonly used function library
 
 [![GoDoc](https://godoc.org/gopkg.in/LyricTian/lib.v2?status.svg)](https://godoc.org/gopkg.in/LyricTian/lib.v2)
+[![Go Report Card](https://goreportcard.com/badge/gopkg.in/LyricTian/lib.v2?status.svg)](https://goreportcard.com/report/gopkg.in/LyricTian/lib.v2?status.svg)
 
 ## Get And Usage
 
