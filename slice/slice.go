@@ -1,18 +1,20 @@
 package slice
 
 import (
-	"errors"
+	"math/rand"
 	"reflect"
+	"time"
 )
 
-// RemoveDuplicates 去除重复
-func RemoveDuplicates(v interface{}) (interface{}, error) {
-	iVal := reflect.Indirect(reflect.ValueOf(v))
-	if iVal.IsNil() || !iVal.IsValid() || !(iVal.Kind() == reflect.Array || iVal.Kind() == reflect.Slice) {
-		return nil, errors.New("i must be a slice or array value")
+// RemoveDuplicates 从切片中去除重复
+// data 切片数据
+func RemoveDuplicates(data interface{}) interface{} {
+	iVal := reflect.Indirect(reflect.ValueOf(data))
+	if iVal.IsNil() || !iVal.IsValid() || iVal.Kind() != reflect.Slice {
+		panic("The unknown slice")
 	}
 	var el int
-	iTyp := reflect.TypeOf(v)
+	iTyp := reflect.TypeOf(data)
 	l := iVal.Len()
 	result := reflect.MakeSlice(iTyp, l, l)
 	for i := 0; i < l; i++ {
@@ -29,5 +31,36 @@ func RemoveDuplicates(v interface{}) (interface{}, error) {
 			el++
 		}
 	}
-	return result.Slice(0, el).Interface(), nil
+	return result.Slice(0, el).Interface()
+}
+
+// RandomCapture 从切片中获取一组随机数据(不重复)，返回长度为l的切片
+// data 切片数据
+// l 随机数据的长度
+func RandomCapture(data interface{}, l int) interface{} {
+	dVal := reflect.Indirect(reflect.ValueOf(data))
+	if dVal.IsNil() || !dVal.IsValid() || dVal.Kind() != reflect.Slice {
+		panic("The unknown slice")
+	}
+	rVal := reflect.MakeSlice(dVal.Type(), l, l)
+	n := dVal.Len()
+	rd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < l; i++ {
+		for {
+			var exist bool
+			v := rd.Intn(n)
+			dIndex := dVal.Index(v)
+			for j := 0; j < i; j++ {
+				if reflect.DeepEqual(dIndex, rVal.Index(j)) {
+					exist = true
+					break
+				}
+			}
+			if !exist {
+				rVal.Index(i).Set(dIndex)
+				break
+			}
+		}
+	}
+	return rVal.Interface()
 }
