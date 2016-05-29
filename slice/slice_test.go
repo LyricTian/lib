@@ -1,14 +1,12 @@
-package slice_test
+package slice
 
 import (
 	"testing"
-
-	"gopkg.in/LyricTian/lib.v2/slice"
 )
 
 func TestRemoveDuplicates(t *testing.T) {
 	a := []int{100, 200, 300, 100, 200, 400, 500, 400, 300}
-	v := slice.RemoveDuplicates(a)
+	v := RemoveDuplicates(a)
 	va := v.([]int)
 	if len(va) != 5 {
 		t.Fatal("Error:", va)
@@ -21,7 +19,7 @@ func TestRandomCapture(t *testing.T) {
 	for i := 0; i < len(data); i++ {
 		data[i] = i + 1
 	}
-	v := slice.RandomCapture(data, 10)
+	v := RandomCapture(data, 10)
 	result := v.([]int)
 	if len(result) != 10 {
 		t.Fatal("Error:", result)

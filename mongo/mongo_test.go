@@ -5,7 +5,7 @@ import (
 )
 
 func TestIncrID(t *testing.T) {
-	handler, err := InitHandlerWithDB("mongodb://admin:123456@192.168.33.70:27017", "test")
+	handler, err := InitHandlerWithDB("mongodb://admin:123456@45.78.35.157:37017", "test")
 	if err != nil {
 		t.Fatal(err)
 	}
