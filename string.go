@@ -29,9 +29,27 @@ func (s S) Int64() (int64, error) {
 	return strconv.ParseInt(s.String(), 10, 64)
 }
 
+// Int Convert string to int
+func (s S) Int() (int, error) {
+	i, err := s.Int64()
+	if err != nil {
+		return 0, err
+	}
+	return int(i), nil
+}
+
 // DefaultInt64 Convert string to int64
 func (s S) DefaultInt64(defaultVal int64) int64 {
 	v, err := s.Int64()
+	if err != nil {
+		return defaultVal
+	}
+	return v
+}
+
+// DefaultInt Convert string to int
+func (s S) DefaultInt(defaultVal int) int {
+	v, err := s.Int()
 	if err != nil {
 		return defaultVal
 	}
@@ -57,9 +75,27 @@ func (s S) Float64() (float64, error) {
 	return strconv.ParseFloat(s.String(), 64)
 }
 
+// Float32 Convert string to float32
+func (s S) Float32() (float32, error) {
+	f, err := s.Float64()
+	if err != nil {
+		return 0, err
+	}
+	return float32(f), nil
+}
+
 // DefaultFloat64 Convert string to float64
 func (s S) DefaultFloat64(defaultVal float64) float64 {
 	v, err := s.Float64()
+	if err != nil {
+		return defaultVal
+	}
+	return v
+}
+
+// DefaultFloat32 Convert string to float32
+func (s S) DefaultFloat32(defaultVal float32) float32 {
+	v, err := s.Float32()
 	if err != nil {
 		return defaultVal
 	}
