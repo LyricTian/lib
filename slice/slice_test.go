@@ -19,10 +19,14 @@ func TestRandomCapture(t *testing.T) {
 	for i := 0; i < len(data); i++ {
 		data[i] = i + 1
 	}
-	v := RandomCapture(data, 10)
-	result := v.([]int)
-	if len(result) != 10 {
-		t.Fatal("Error:", result)
+	rc := RandomCapture(data, 30).([]int)
+	result := make(map[int]int)
+	for i, v := range rc {
+		result[v] = i
 	}
-	t.Log(result)
+	if len(result) != 30 {
+		t.Fatal("Error:", rc)
+	}
+
+	t.Log(rc)
 }

@@ -42,16 +42,19 @@ func RandomCapture(data interface{}, l int) interface{} {
 	if dVal.IsNil() || !dVal.IsValid() || dVal.Kind() != reflect.Slice {
 		panic("The unknown slice")
 	}
-	rVal := reflect.MakeSlice(dVal.Type(), l, l)
 	n := dVal.Len()
+	if l > n {
+		l = n
+	}
+	rVal := reflect.MakeSlice(dVal.Type(), l, l)
 	rd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < l; i++ {
 		for {
 			var exist bool
 			v := rd.Intn(n)
 			dIndex := dVal.Index(v)
-			for j := 0; j < i; j++ {
-				if reflect.DeepEqual(dIndex, rVal.Index(j)) {
+			for j := 0; j < rVal.Len(); j++ {
+				if reflect.DeepEqual(dIndex.Interface(), rVal.Index(j).Interface()) {
 					exist = true
 					break
 				}
