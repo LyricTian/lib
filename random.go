@@ -6,36 +6,36 @@ import (
 	"time"
 )
 
-// NewRandom 创建Random的实例
-// l 生成随机码的长度
+// NewRandom create the Random instances
+// l the length of the generated random code
 func NewRandom(l int) *Random {
 	return &Random{vl: l}
 }
 
-// Random 提供随机码的生成函数
+// Random provide random code generation
 type Random struct {
 	vl int
 }
 
-// Number 生成只包含数字的随机码
+// Number generate random code contains only Numbers
 func (rd *Random) Number() string {
 	source := rd.number()
 	return rd.Source(source)
 }
 
-// LowerLetter 生成只包含小写字母的随机码
+// LowerLetter the random code generation only contain lowercase letters
 func (rd *Random) LowerLetter() string {
 	source := rd.lowerLetter()
 	return rd.Source(source)
 }
 
-// UpperLetter 生成只包含大写字母的随机码
+// UpperLetter the random code generation only contains uppercase letters
 func (rd *Random) UpperLetter() string {
 	source := rd.upperLetter()
 	return rd.Source(source)
 }
 
-// NumberAndLetter 生成包含数字和字母(不区分大小写)的随机码
+// NumberAndLetter generated contains Numbers and letters (case-insensitive) random code
 func (rd *Random) NumberAndLetter() string {
 	source := rd.number()
 	source = append(source, rd.lowerLetter()...)
@@ -43,7 +43,7 @@ func (rd *Random) NumberAndLetter() string {
 	return rd.Source(source)
 }
 
-// Source 从指定的数据源生成随机码
+// Source from the specified data source to generate random codes
 func (rd *Random) Source(source []byte) string {
 	if len(source) == 0 {
 		return ""

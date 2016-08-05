@@ -5,15 +5,12 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// InitHandler 初始化Handler
-// url MongoDB连接路径
+// InitHandler initialize the Handler
 func InitHandler(url string) (*Handler, error) {
 	return InitHandlerWithDB(url, "")
 }
 
-// InitHandlerWithDB 初始化Handler(使用指定的数据库名称)
-// url MongoDB连接路径
-// dbName 数据库名称
+// InitHandlerWithDB initialize the Handler with db name
 func InitHandlerWithDB(url, dbName string) (*Handler, error) {
 	session, err := mgo.Dial(url)
 	if err != nil {
@@ -25,60 +22,59 @@ func InitHandlerWithDB(url, dbName string) (*Handler, error) {
 	}, nil
 }
 
-// Handler 提供MongoDB的数据库操作
+// Handler Provide the mongo's operation
 type Handler struct {
 	session *mgo.Session
 	dbName  string
 }
 
-// Session 获取当前会话
+// Session get current session
 func (h *Handler) Session() *mgo.Session {
 	return h.session
 }
 
-// CloneSession 克隆一个会话
+// CloneSession clone session
 func (h *Handler) CloneSession() *mgo.Session {
 	return h.session.Clone()
 }
 
-// DB 获取当前数据库实例
+// DB get database
 func (h *Handler) DB() *mgo.Database {
 	return h.session.DB(h.dbName)
 }
 
-// DBWithName 获取指定的数据库实例
-// dbName 数据库名称
+// DBWithName get database with name
 func (h *Handler) DBWithName(dbName string) *mgo.Database {
 	return h.session.DB(dbName)
 }
 
-// CHandle 使用默认DB处理带有回调函数的集合,处理完成之后将关闭该会话(处理时将使用克隆的会话)
+// CHandle use the default DB processing with a set of callback functions,
+// the session will be closed down after processing is completed
 func (h *Handler) CHandle(cName string, handle func(c *mgo.Collection)) {
 	session := h.CloneSession()
 	defer session.Close()
 	handle(session.DB(h.dbName).C(cName))
 }
 
-// CHandleWithDB 使用新的DB处理带有回调函数的集合,处理完成之后将关闭该会话(处理时将使用克隆的会话)
+// CHandleWithDB use the new DB processing with a set of callback functions,
+// the session will be closed down after processing is completed
 func (h *Handler) CHandleWithDB(dbName, cName string, handle func(c *mgo.Collection)) {
 	session := h.CloneSession()
 	defer session.Close()
 	handle(session.DB(dbName).C(cName))
 }
 
-// C 使用默认DB处理集合(使用当前会话)
+// C use the default db get collection
 func (h *Handler) C(cName string) *mgo.Collection {
 	return h.session.DB(h.dbName).C(cName)
 }
 
-// CWithDB 使用新的DB处理集合(使用当前会话)
+// CWithDB use the new db get collection
 func (h *Handler) CWithDB(dbName, cName string) *mgo.Collection {
 	return h.session.DB(dbName).C(cName)
 }
 
-// IncrID 返回一个自增ID
-// cName 需要生成自增ID的集合名称
-// storeCName 存储自增ID的集合名(默认为counters)
+// IncrID get increase id
 func (h *Handler) IncrID(cName string, storeCName ...string) (id int64, err error) {
 	sCName := "counters"
 	if len(storeCName) > 0 {

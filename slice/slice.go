@@ -6,8 +6,7 @@ import (
 	"time"
 )
 
-// RemoveDuplicates 从切片中去除重复
-// data 切片数据
+// RemoveDuplicates remove duplicate from the slices
 func RemoveDuplicates(data interface{}) interface{} {
 	iVal := reflect.Indirect(reflect.ValueOf(data))
 	if iVal.IsNil() || !iVal.IsValid() || iVal.Kind() != reflect.Slice {
@@ -34,24 +33,25 @@ func RemoveDuplicates(data interface{}) interface{} {
 	return result.Slice(0, el).Interface()
 }
 
-// RandomCapture 从切片中获取一组随机数据(不重复)，返回长度为l的切片
-// data 切片数据
-// l 随机数据的长度
+// RandomCapture to obtain a set of random data from the biopsy (don't repeat), returns the length of l slice
 func RandomCapture(data interface{}, l int) interface{} {
 	dVal := reflect.Indirect(reflect.ValueOf(data))
 	if dVal.IsNil() || !dVal.IsValid() || dVal.Kind() != reflect.Slice {
 		panic("The unknown slice")
 	}
-	rVal := reflect.MakeSlice(dVal.Type(), l, l)
 	n := dVal.Len()
+	if l > n {
+		l = n
+	}
+	rVal := reflect.MakeSlice(dVal.Type(), l, l)
 	rd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < l; i++ {
 		for {
 			var exist bool
 			v := rd.Intn(n)
 			dIndex := dVal.Index(v)
-			for j := 0; j < i; j++ {
-				if reflect.DeepEqual(dIndex, rVal.Index(j)) {
+			for j := 0; j < rVal.Len(); j++ {
+				if reflect.DeepEqual(dIndex.Interface(), rVal.Index(j).Interface()) {
 					exist = true
 					break
 				}

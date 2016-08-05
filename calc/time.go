@@ -4,9 +4,7 @@ import (
 	"time"
 )
 
-// WeekCount 计算两个时间之间的周数差值
-// start 开始时间
-// end 结束时间
+// WeekCount calculate the number of weeks between the two time difference
 func WeekCount(start, end time.Time) int {
 	currentWeek := int(start.Weekday())
 	if currentWeek == 0 {
