@@ -5,6 +5,20 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// define global handler
+var (
+	GH *Handler
+)
+
+// LoadHandler load global handler
+func LoadHandler(url, dbName string) {
+	h, err := InitHandlerWithDB(url, dbName)
+	if err != nil {
+		panic(err)
+	}
+	GH = h
+}
+
 // InitHandler initialize the Handler
 func InitHandler(url string) (*Handler, error) {
 	return InitHandlerWithDB(url, "")
