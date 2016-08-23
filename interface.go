@@ -67,6 +67,9 @@ func (i inter) String() string {
 	case reflect.Bool:
 		return strconv.FormatBool(i.v.Bool())
 	}
+	if !i.v.IsValid() {
+		return ""
+	}
 	return fmt.Sprintf("%v", i.v.Interface())
 }
 
@@ -80,6 +83,9 @@ func (i inter) Int64() (int64, error) {
 		return int64(i.v.Uint()), nil
 	case reflect.Float64:
 		return int64(i.v.Float()), nil
+	}
+	if !i.v.IsValid() {
+		return 0, nil
 	}
 	return 0, errors.New("Unknown value type")
 }
@@ -103,6 +109,9 @@ func (i inter) Uint64() (uint64, error) {
 	case reflect.String:
 		return S(i.v.String()).Uint64()
 	}
+	if !i.v.IsValid() {
+		return 0, nil
+	}
 	return 0, errors.New("Unknown value type")
 }
 
@@ -125,6 +134,9 @@ func (i inter) Float64() (float64, error) {
 	case reflect.Float64:
 		return i.v.Float(), nil
 	}
+	if !i.v.IsValid() {
+		return 0, nil
+	}
 	return 0, errors.New("Unknown value type")
 }
 
@@ -142,6 +154,9 @@ func (i inter) Bool() (bool, error) {
 		return S(i.v.String()).Bool()
 	case reflect.Bool:
 		return i.v.Bool(), nil
+	}
+	if !i.v.IsValid() {
+		return false, nil
 	}
 	return false, errors.New("Unknown value type")
 }
