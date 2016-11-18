@@ -28,6 +28,11 @@ type Handler struct {
 	dbName  string
 }
 
+// Close terminates the session
+func (h *Handler) Close() {
+	h.session.Close()
+}
+
 // Session get current session
 func (h *Handler) Session() *mgo.Session {
 	return h.session
