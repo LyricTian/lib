@@ -48,6 +48,9 @@ func (rd *Random) Source(source []byte) string {
 	if len(source) == 0 {
 		return ""
 	}
+
+	rdn := rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	r, w := io.Pipe()
 	go func() {
 		for i := 0; i < rd.vl; i++ {
@@ -56,14 +59,15 @@ func (rd *Random) Source(source []byte) string {
 					panic(err)
 				}
 			}()
-			rd := rand.New(rand.NewSource(time.Now().UnixNano()))
-			val := source[rd.Intn(len(source))]
+
+			val := source[rdn.Intn(len(source))]
 			_, err := w.Write([]byte{val})
 			if err != nil {
 				panic(err)
 			}
 		}
 	}()
+
 	var result []byte
 	for {
 		buf := make([]byte, rd.vl)
