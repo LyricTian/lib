@@ -1,30 +1,29 @@
-# Golang commonly used function library
+# Golang函数库
+> 源于日常开发中的积累
 
-[![GoDoc](https://godoc.org/gopkg.in/LyricTian/lib.v2?status.svg)](https://godoc.org/gopkg.in/LyricTian/lib.v2)
-[![Go Report Card](https://goreportcard.com/badge/gopkg.in/LyricTian/lib.v2?status.svg)](https://goreportcard.com/report/gopkg.in/LyricTian/lib.v2?status.svg)
+[![License][License-Image]][License-Url] [![ReportCard][ReportCard-Image]][ReportCard-Url] [![GoDoc][GoDoc-Image]][GoDoc-Url]
 
-## Get And Usage
+## 获取
 
 ``` bash
-$ go get -v gopkg.in/LyricTian/lib.v2
+$ go get -u gopkg.in/LyricTian/lib.v2/...
 ```
+
+## 使用
 
 ``` go
 import "gopkg.in/LyricTian/lib.v2"
 ```
 
-## License
+## MIT License
 
-	Copyright 2016.All rights reserved.
+```
+Copyright (c) 2016 Lyric
+```
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+[License-Url]: http://opensource.org/licenses/MIT
+[License-Image]: https://img.shields.io/npm/l/express.svg
+[ReportCard-Url]: https://goreportcard.com/report/gopkg.in/LyricTian/lib.v2
+[ReportCard-Image]: https://goreportcard.com/badge/gopkg.in/LyricTian/lib.v2
+[GoDoc-Url]: https://godoc.org/gopkg.in/LyricTian/lib.v2
+[GoDoc-Image]: https://godoc.org/gopkg.in/LyricTian/lib.v2?status.svg
