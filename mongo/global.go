@@ -1,7 +1,7 @@
 package mongo
 
 import (
-	"gopkg.in/mgo.v2"
+	"github.com/globalsign/mgo"
 )
 
 // define global handler
