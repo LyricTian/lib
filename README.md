@@ -6,13 +6,13 @@
 ## 获取
 
 ``` bash
-$ go get -u gopkg.in/LyricTian/lib.v2/...
+$ go get -u github.com/LyricTian/lib/...
 ```
 
 ## 使用
 
 ``` go
-import "gopkg.in/LyricTian/lib.v2"
+import "github.com/LyricTian/lib"
 ```
 
 ## MIT License
@@ -23,7 +23,7 @@ Copyright (c) 2016 Lyric
 
 [License-Url]: http://opensource.org/licenses/MIT
 [License-Image]: https://img.shields.io/npm/l/express.svg
-[ReportCard-Url]: https://goreportcard.com/report/gopkg.in/LyricTian/lib.v2
-[ReportCard-Image]: https://goreportcard.com/badge/gopkg.in/LyricTian/lib.v2
-[GoDoc-Url]: https://godoc.org/gopkg.in/LyricTian/lib.v2
-[GoDoc-Image]: https://godoc.org/gopkg.in/LyricTian/lib.v2?status.svg
+[ReportCard-Url]: https://goreportcard.com/report/github.com/LyricTian/lib
+[ReportCard-Image]: https://goreportcard.com/badge/github.com/LyricTian/lib
+[GoDoc-Url]: https://godoc.org/github.com/LyricTian/lib
+[GoDoc-Image]: https://godoc.org/github.com/LyricTian/lib?status.svg
