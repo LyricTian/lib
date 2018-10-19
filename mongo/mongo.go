@@ -81,7 +81,7 @@ func (h *Handler) CWithDB(dbName, cName string) *mgo.Collection {
 
 // IncrID get increase id
 func (h *Handler) IncrID(cName string, storeCName ...string) (id int64, err error) {
-	sCName := "counters"
+	sCName := "counter"
 	if len(storeCName) > 0 {
 		sCName = storeCName[0]
 	}
